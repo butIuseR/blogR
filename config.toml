@@ -12,13 +12,13 @@
 # For developpers, if you modify this theme, put your images in `source/images` folder and
 # use grunt task `build` to synchronize assets
 
-baseURL = "https://example.org/"
+baseURL = "https://ok_oksourabh/"
 languageCode = "en-us"
 defaultContentLanguage = "en-us"
-title = "Hugo tranquilpeak theme"
+title = "ok_oksourabh"
 theme = "hugo-tranquilpeak-theme"
 disqusShortname = "hugo-tranquilpeak-theme"
-# googleAnalytics = "UA-123-45"
+googleAnalytics = ""
 paginate = 7
 canonifyurls = true
 
@@ -31,10 +31,10 @@ canonifyurls = true
   archive = "archives"
 
 [author]
-  name = "Firstname Lastname"
-  bio = "Super bio with markdown support **COOL**"
-  job = "Your job title"
-  location = "France"
+  name = "Sourabh Kaprwan"
+  bio = "**Professor** of **Learning**"
+  job = ""
+  location = "India"
   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
   gravatarEmail = "thibaud.lepretre@gmail.com"
   # Your profile picture
