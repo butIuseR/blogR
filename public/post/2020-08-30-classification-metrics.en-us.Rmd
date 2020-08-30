@@ -1,0 +1,13 @@
+---
+title: Classification Metrics
+author: Sourabh Kaprwan
+date: '2020-08-30'
+slug: classification-metrics.en-us
+categories:
+  - R
+tags: []
+keywords:
+  - tech
+---
+
+<!--more-->

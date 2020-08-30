@@ -6,10 +6,22 @@
     <description>Recent content in Posts on ok_oksourabh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Classification Metrics</title>
+      <link>/2020/08/classification-metrics.en-us/</link>
+      <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/08/classification-metrics.en-us/</guid>
+      <description>
+
+
+</description>
+    </item>
     
     <item>
       <title>Hello R Markdown</title>
