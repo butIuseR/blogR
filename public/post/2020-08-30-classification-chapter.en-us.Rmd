@@ -1,0 +1,208 @@
+---
+title: '(Lesser) Known facts about evaluation metrics-Classification_chapter'
+author: Sourabh Kaprwan
+date: '2020-09-08'
+slug: Evaluation_metrics_Classification
+categories:
+  - R
+tags:
+  - classification
+  - evaluation
+  - metrics
+keywords:
+  - tech
+output: html_document
+---
+
+Hey people! This post is about evaluation metrics used in classification problems.....Jeez! They already know about the topic, they have obviously seen the title. Sorry! I am very bad at starting things. But I really hope this post ends well.... for you!
+
+So, this one is about Classification. I will try to cover Regression in another post. But why am I starting with metrics right off the bat you ask? I know this is the last part of a ML project pipeline but for me, I often made mistakes in choosing right metric for my data and ended up with wrong interpretations. I hope this reason should suffice, I will tell you about my more mistakes in upcoming posts, so do come for that ;)
+
+The most common used metrics in classification problems are - <br/> 
+1. **Accuracy**<br/>
+2. **Precision**<br/>
+3. **Recall**<br/>
+4. **F1 score**<br/>
+5. **AUC ROC** (Area Under the **Receiver Operating Characteristic** Curve )<br/>
+
+There are some more metrics such as **log loss**, **precision at k** etc etc., but the above mentioned ones are more popular (#myopinion). I will cover these five metrics and try to answer - what are they and when they should be used in your classification projects. One last thing before starting, I will do implementaion in R, for python's fandom, you guys know where to look-_scikit_.
+
+
+
+
+### Accuracy
+This is the most simple and straightforward metric used in classification problems. Lets take an example of 100 observations. If your model classifies 90 observations correctly, then your accuracy is 90% or 0.90.
+
+
+```{r message=FALSE, warning=FALSE}
+require(dplyr)
+require(yardstick)
+
+df=tibble::tribble(~truth,~predicted,
+                   0,1,
+                   1,1,
+                   0,0,
+                   1,0,
+                   0,0,
+                   1,1
+                  )
+df
+
+df %>% 
+  mutate(across(everything(), as.factor)) %>% 
+  accuracy(truth,predicted)
+
+
+```
+Hmph! So we got accuracy of 0.667 which seems very sloppy to me.
+
+Now let's take a binary classification example where we have 100 observations with 85 positive observations (1s) and 15 negative (0s). If you take a guess and say all are positive examples, then sir, you are 85 times right and you are acheiving accuracy of 85% without making any model. This is some great feat there.
+
+But it seems like something is off. Yeah you guessed it right! Our data is skewed. 
+
+> Accuracy is not advisable to use in cases of skewed data.
+
+For handling these kind of situations, we should look for other metrics, which brings us to our next topic-
+
+### Precision and Recall
+Precision and Recall can handle skewed data but we need to know some terms before using them.
+
+**True Positive (TP)**- *if model correctly predicts positive class, it is true positive.*
+
+**True Negative (TN)**- *if model correctly predicts negative class, it is true negative.*
+
+**False Positive (FP)**- *if model incorrectly predicts positive class, it is false positive.*
+
+**False Negative (FN)**- *if model incorrectly predicts negative class, it is false negative.*
+
+![Source-*towards data science*](C:/Users/NEW/Desktop/blog/blogRR/1_Z54JgbS4DUwWSknhDCvNTQ.png)
+
+</br> **Precision**=TP/(TP+FP) or **Precision**=True Positive/Actual Results </br>
+**Recall**=TP/(TP+FN) or **Recall**=True Positive/Predicted Results
+
+Now if, TP=10, TN=45, FP=20, FN=5 then</br>
+```{r}
+Precision=10/(10+20)
+
+Precision
+```
+This means that our model is correct 33.3% times when it's trying to identify positive class.
+
+```{r}
+Recall=10/(10+5)
+
+Recall
+```
+This means our model predicted 66.6% of positive samples correctly.
+
+Precision and Recall are a bit dificult to understand initially. If you got them already, Great, level unlocked! Head to the next topic, but if not, let me put them in this way. Suppose someone asked you, how many times you got full marks in a particular year. What are the chances you will be able to **recall** all the instances **precisely**?
+ 
+If you had let's say 15 instances in reality, and you answered 30. Then your recall is 100% but your precision is 50%. 
+
+> There is always a tradeoff between Precision and Recall to look out for
+
+This task is a bit hectic as you have to look for both metrics simulatenously. 
+
+To ease this problem, we use our next metric-
+
+### F1 score
+
+F1 score combines both Precision and Recall by taking their harmonic mean.
+We can represent F1 score as-</br>
+
+F1=2PR/(P+R)</br>
+
+> We should look for F1 score instead of Precision and Recall in case of skewed observations.
+
+Recall is also known as *Sensitivity* or True Positive Rate(TPR). We also have a term known as False Positive Rate(FPR) = FP/(TN+FP) and 1-FPR is known as *Specificity* or True Negative Rate(TNR).
+
+Phew! so many terminologies back to back! But these terms are used in our next metric which is-
+
+### AUC ROC
+
+Let's start this metric with an example-
+
+```{r}
+
+df=tibble::tribble(
+       ~truth,~predicted,
+       0,0.6,
+       0,0.1,
+       1,0.9,
+       1,0.3,
+       0,0.4,
+       1,0.6,
+       0,0.5,
+       1,0.7
+) %>% 
+  mutate(across(truth,as.factor))
+
+df
+
+
+```
+ 
+Usually, 0.5 is the default value of threshold, i.e., if predicted probability is less than 0.5, then it is said to be negative class(0), and if greater than 0.5, then that observation belongs to positive class(1). But we can choose any other threshold like 0.4 or 0.7 according to our problem in hand. We can calculate precision, recall,TPR or FPR using any threshold. For now, let's calculate TPR and FPR. 
+
+By taking TPR(sensitivity) on the y-axis and FPR(1-specificity) on x-axis, we get ROC curve.
+
+```{r}
+df %>% 
+  roc_curve(truth,predicted)
+  
+df %>% 
+  roc_curve(truth,predicted) %>% 
+  ggplot2::autoplot()
+```
+
+This curve, as I mentioned earlier, is ROC curve. If we calculate area under this curve then we get our ROC AUC.
+
+```{r}
+
+df %>% 
+  roc_auc(truth,predicted)
+```
+
+This means that if you select randomly one positive and one negative observation, then positive observation will rank higher with a probability 0.78.
+
+And guess what, you can use the ROC curve to choose the threshold! The ROC curve will tell you how the threshold impacts false positive rate and true positive rate and thus, in turn, false positives and true positives. You should choose the threshold that is best suited for your problem and datasets.
+
+For example, if you don't want false negatives, then you should keep a low threshold but this setup will produce more false positives. You need to observe this trade-off and choose a suitable threshold for your problem. 
+
+Usually, the leftmost point is used for best possible threshold value.In our above plot, threshold corresponding to point(0.25,0.75) i.e, 0.5 is most suitable.
+
+
+This concludes our last metric. I really hope this post was not that boring as I am expecting it to be. If it is, give me feedbacks,I will try to improve.
+
+Thank you!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.73.0 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Sourabh Kaprwan">
+<meta name="keywords" content="tech">
+<meta name="description" content="Hey people! This post is about evaluation metrics used in classification problems…..Jeez! They already know about the topic, they have obviously seen the title. Sorry! I am very bad at starting things. But I really hope this post ends well…. for you!
+So, this one is about Classification. I will try to cover Regression in another post. But why am I starting with metrics right off the bat you ask?">
+
+
+<meta property="og:description" content="Hey people! This post is about evaluation metrics used in classification problems…..Jeez! They already know about the topic, they have obviously seen the title. Sorry! I am very bad at starting things. But I really hope this post ends well…. for you!
+So, this one is about Classification. I will try to cover Regression in another post. But why am I starting with metrics right off the bat you ask?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Lesser) Known facts about evaluation metrics-Classification_chapter">
+<meta name="twitter:title" content="(Lesser) Known facts about evaluation metrics-Classification_chapter">
+<meta property="og:url" content="https://okoksourabh.netlify.app/2020/09/evaluation_metrics_classification/">
+<meta property="twitter:url" content="https://okoksourabh.netlify.app/2020/09/evaluation_metrics_classification/">
+<meta property="og:site_name" content="ok_oksourabh">
+<meta property="og:description" content="Hey people! This post is about evaluation metrics used in classification problems…..Jeez! They already know about the topic, they have obviously seen the title. Sorry! I am very bad at starting things. But I really hope this post ends well…. for you!
+So, this one is about Classification. I will try to cover Regression in another post. But why am I starting with metrics right off the bat you ask?">
+<meta name="twitter:description" content="Hey people! This post is about evaluation metrics used in classification problems…..Jeez! They already know about the topic, they have obviously seen the title. Sorry! I am very bad at starting things. But I really hope this post ends well…. for you!
+So, this one is about Classification. I will try to cover Regression in another post. But why am I starting with metrics right off the bat you ask?">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-09-08T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2020-09-08T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="R">
+    
+  
+  
+    
+      <meta property="article:tag" content="classification">
+    
+      <meta property="article:tag" content="evaluation">
+    
+      <meta property="article:tag" content="metrics">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/70123faf94737e65e48a5c7dc7749002?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/70123faf94737e65e48a5c7dc7749002?s=640">
+
+
+    <title>(Lesser) Known facts about evaluation metrics-Classification_chapter</title>
+
+    <link rel="icon" href="https://okoksourabh.netlify.app/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://okoksourabh.netlify.app/2020/09/evaluation_metrics_classification/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://okoksourabh.netlify.app/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-176804240-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://okoksourabh.netlify.app/">ok_oksourabh</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://okoksourabh.netlify.app/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/70123faf94737e65e48a5c7dc7749002?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://okoksourabh.netlify.app/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/70123faf94737e65e48a5c7dc7749002?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Sourabh Kaprwan</h4>
+        
+          <h5 class="sidebar-profile-bio"><strong>Professor</strong> of <strong>Learning</strong></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://okoksourabh.netlify.app/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://okoksourabh.netlify.app/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://okoksourabh.netlify.app/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://okoksourabh.netlify.app/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://okoksourabh.netlify.app/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/butIuseR" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      (Lesser) Known facts about evaluation metrics-Classification_chapter
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-08T00:00:00Z">
+        
+  September 8, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://okoksourabh.netlify.app/categories/r">R</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+
+<p>Hey people! This post is about evaluation metrics used in classification problems…..Jeez! They already know about the topic, they have obviously seen the title. Sorry! I am very bad at starting things. But I really hope this post ends well…. for you!</p>
+<p>So, this one is about Classification. I will try to cover Regression in another post. But why am I starting with metrics right off the bat you ask? I know this is the last part of a ML project pipeline but for me, I often made mistakes in choosing right metric for my data and ended up with wrong interpretations. I hope this reason should suffice, I will tell you about my more mistakes in upcoming posts, so do come for that ;)</p>
+<p>The most common used metrics in classification problems are - <br/>
+1. <strong>Accuracy</strong><br/>
+2. <strong>Precision</strong><br/>
+3. <strong>Recall</strong><br/>
+4. <strong>F1 score</strong><br/>
+5. <strong>AUC ROC</strong> (Area Under the <strong>Receiver Operating Characteristic</strong> Curve )<br/></p>
+<p>There are some more metrics such as <strong>log loss</strong>, <strong>precision at k</strong> etc etc., but the above mentioned ones are more popular (#myopinion). I will cover these five metrics and try to answer - what are they and when they should be used in your classification projects. One last thing before starting, I will do implementaion in R, for python’s fandom, you guys know where to look-<em>scikit</em>.</p>
+<div id="accuracy" class="section level3">
+<h3>Accuracy</h3>
+<p>This is the most simple and straightforward metric used in classification problems. Lets take an example of 100 observations. If your model classifies 90 observations correctly, then your accuracy is 90% or 0.90.</p>
+<pre class="r"><code>require(dplyr)
+require(yardstick)
+
+df=tibble::tribble(~truth,~predicted,
+                   0,1,
+                   1,1,
+                   0,0,
+                   1,0,
+                   0,0,
+                   1,1
+                  )
+df</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   truth predicted
+##   &lt;dbl&gt;     &lt;dbl&gt;
+## 1     0         1
+## 2     1         1
+## 3     0         0
+## 4     1         0
+## 5     0         0
+## 6     1         1</code></pre>
+<pre class="r"><code>df %&gt;% 
+  mutate(across(everything(), as.factor)) %&gt;% 
+  accuracy(truth,predicted)</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy binary         0.667</code></pre>
+<p>Hmph! So we got accuracy of 0.667 which seems very sloppy to me.</p>
+<p>Now let’s take a binary classification example where we have 100 observations with 85 positive observations (1s) and 15 negative (0s). If you take a guess and say all are positive examples, then sir, you are 85 times right and you are acheiving accuracy of 85% without making any model. This is some great feat there.</p>
+<p>But it seems like something is off. Yeah you guessed it right! Our data is skewed.</p>
+<blockquote>
+<p>Accuracy is not advisable to use in cases of skewed data.</p>
+</blockquote>
+<p>For handling these kind of situations, we should look for other metrics, which brings us to our next topic-</p>
+</div>
+<div id="precision-and-recall" class="section level3">
+<h3>Precision and Recall</h3>
+<p>Precision and Recall can handle skewed data but we need to know some terms before using them.</p>
+<p><strong>True Positive (TP)</strong>- <em>if model correctly predicts positive class, it is true positive.</em></p>
+<p><strong>True Negative (TN)</strong>- <em>if model correctly predicts negative class, it is true negative.</em></p>
+<p><strong>False Positive (FP)</strong>- <em>if model incorrectly predicts positive class, it is false positive.</em></p>
+<p><strong>False Negative (FN)</strong>- <em>if model incorrectly predicts negative class, it is false negative.</em></p>
+<div class="figure">
+<img src="C:/Users/NEW/Desktop/blog/blogRR/1_Z54JgbS4DUwWSknhDCvNTQ.png" alt="" />
+<p class="caption">Source-<em>towards data science</em></p>
+</div>
+<p></br> <strong>Precision</strong>=TP/(TP+FP) or <strong>Precision</strong>=True Positive/Actual Results </br>
+<strong>Recall</strong>=TP/(TP+FN) or <strong>Recall</strong>=True Positive/Predicted Results</p>
+<p>Now if, TP=10, TN=45, FP=20, FN=5 then</br></p>
+<pre class="r"><code>Precision=10/(10+20)
+
+Precision</code></pre>
+<pre><code>## [1] 0.3333333</code></pre>
+<p>This means that our model is correct 33.3% times when it’s trying to identify positive class.</p>
+<pre class="r"><code>Recall=10/(10+5)
+
+Recall</code></pre>
+<pre><code>## [1] 0.6666667</code></pre>
+<p>This means our model predicted 66.6% of positive samples correctly.</p>
+<p>Precision and Recall are a bit dificult to understand initially. If you got them already, Great, level unlocked! Head to the next topic, but if not, let me put them in this way. Suppose someone asked you, how many times you got full marks in a particular year. What are the chances you will be able to <strong>recall</strong> all the instances <strong>precisely</strong>?</p>
+<p>If you had let’s say 15 instances in reality, and you answered 30. Then your recall is 100% but your precision is 50%.</p>
+<blockquote>
+<p>There is always a tradeoff between Precision and Recall to look out for</p>
+</blockquote>
+<p>This task is a bit hectic as you have to look for both metrics simulatenously.</p>
+<p>To ease this problem, we use our next metric-</p>
+</div>
+<div id="f1-score" class="section level3">
+<h3>F1 score</h3>
+<p>F1 score combines both Precision and Recall by taking their harmonic mean.
+We can represent F1 score as-</br></p>
+<p>F1=2PR/(P+R)</br></p>
+<blockquote>
+<p>We should look for F1 score instead of Precision and Recall in case of skewed observations.</p>
+</blockquote>
+<p>Recall is also known as <em>Sensitivity</em> or True Positive Rate(TPR). We also have a term known as False Positive Rate(FPR) = FP/(TN+FP) and 1-FPR is known as <em>Specificity</em> or True Negative Rate(TNR).</p>
+<p>Phew! so many terminologies back to back! But these terms are used in our next metric which is-</p>
+</div>
+<div id="auc-roc" class="section level3">
+<h3>AUC ROC</h3>
+<p>Let’s start this metric with an example-</p>
+<pre class="r"><code>df=tibble::tribble(
+       ~truth,~predicted,
+       0,0.6,
+       0,0.1,
+       1,0.9,
+       1,0.3,
+       0,0.4,
+       1,0.6,
+       0,0.5,
+       1,0.7
+) %&gt;% 
+  mutate(across(truth,as.factor))
+
+df</code></pre>
+<pre><code>## # A tibble: 8 x 2
+##   truth predicted
+##   &lt;fct&gt;     &lt;dbl&gt;
+## 1 0           0.6
+## 2 0           0.1
+## 3 1           0.9
+## 4 1           0.3
+## 5 0           0.4
+## 6 1           0.6
+## 7 0           0.5
+## 8 1           0.7</code></pre>
+<p>Usually, 0.5 is the default value of threshold, i.e., if predicted probability is less than 0.5, then it is said to be negative class(0), and if greater than 0.5, then that observation belongs to positive class(1). But we can choose any other threshold like 0.4 or 0.7 according to our problem in hand. We can calculate precision, recall,TPR or FPR using any threshold. For now, let’s calculate TPR and FPR.</p>
+<p>By taking TPR(sensitivity) on the y-axis and FPR(1-specificity) on x-axis, we get ROC curve.</p>
+<pre class="r"><code>df %&gt;% 
+  roc_curve(truth,predicted)</code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   .threshold specificity sensitivity
+##        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+## 1     -Inf          1           0   
+## 2        0.1        1           0.25
+## 3        0.3        0.75        0.25
+## 4        0.4        0.75        0.5 
+## 5        0.5        0.75        0.75
+## 6        0.6        0.5         1   
+## 7        0.7        0.25        1   
+## 8        0.9        0           1   
+## 9      Inf          0           1</code></pre>
+<pre class="r"><code>df %&gt;% 
+  roc_curve(truth,predicted) %&gt;% 
+  ggplot2::autoplot()</code></pre>
+<p><img src="https://okoksourabh.netlify.app/post/2020-08-30-classification-chapter.en-us_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>This curve, as I mentioned earlier, is ROC curve. If we calculate area under this curve then we get our ROC AUC.</p>
+<pre class="r"><code>df %&gt;% 
+  roc_auc(truth,predicted)</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.781</code></pre>
+<p>This means that if you select randomly one positive and one negative observation, then positive observation will rank higher with a probability 0.78.</p>
+<p>And guess what, you can use the ROC curve to choose the threshold! The ROC curve will tell you how the threshold impacts false positive rate and true positive rate and thus, in turn, false positives and true positives. You should choose the threshold that is best suited for your problem and datasets.</p>
+<p>For example, if you don’t want false negatives, then you should keep a low threshold but this setup will produce more false positives. You need to observe this trade-off and choose a suitable threshold for your problem.</p>
+<p>Usually, the leftmost point is used for best possible threshold value.In our above plot, threshold corresponding to point(0.25,0.75) i.e, 0.5 is most suitable.</p>
+<p>This concludes our last metric. I really hope this post was not that boring as I am expecting it to be. If it is, give me feedbacks,I will try to improve.</p>
+<p>Thank you!!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://okoksourabh.netlify.app/tags/classification/">classification</a>
+
+  <a class="tag tag--primary tag--small" href="https://okoksourabh.netlify.app/tags/evaluation/">evaluation</a>
+
+  <a class="tag tag--primary tag--small" href="https://okoksourabh.netlify.app/tags/metrics/">metrics</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/KaprwanSourabh%25!%28EXTRA%20string=https://okoksourabh.netlify.app/2020/09/evaluation_metrics_classification/%29">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Sourabh Kaprwan. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/KaprwanSourabh%25!%28EXTRA%20string=https://okoksourabh.netlify.app/2020/09/evaluation_metrics_classification/%29">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/KaprwanSourabh%25!%28EXTRA%20string=https%3A%2F%2Fokoksourabh.netlify.app%2F2020%2F09%2Fevaluation_metrics_classification%2F%29">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/70123faf94737e65e48a5c7dc7749002?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Sourabh Kaprwan</h4>
+    
+      <div id="about-card-bio"><strong>Professor</strong> of <strong>Learning</strong></div>
+    
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        India
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://okoksourabh.netlify.app/img/cover3.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://okoksourabh.netlify.app/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/okoksourabh.netlify.app\/2020\/09\/evaluation_metrics_classification\/';
+          
+            this.page.identifier = '\/2020\/09\/evaluation_metrics_classification\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

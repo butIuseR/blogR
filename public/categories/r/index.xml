@@ -2,36 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on ok_oksourabh</title>
-    <link>/categories/r/</link>
+    <link>https://okoksourabh.netlify.app/categories/r/</link>
     <description>Recent content in R on ok_oksourabh</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://okoksourabh.netlify.app/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Classification Metrics</title>
-      <link>/2020/08/classification-metrics.en-us/</link>
-      <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/08/classification-metrics.en-us/</guid>
-      <description>
-
-
-</description>
-    </item>
     
     <item>
-      <title>Hello R Markdown</title>
-      <link>/2015/07/hello-r-markdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      <title>(Lesser) Known facts about evaluation metrics-Classification_chapter</title>
+      <link>https://okoksourabh.netlify.app/2020/09/evaluation_metrics_classification/</link>
+      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2015/07/hello-r-markdown/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+      <guid>https://okoksourabh.netlify.app/2020/09/evaluation_metrics_classification/</guid>
+      <description>Hey people! This post is about evaluation metrics used in classification problems…..Jeez! They already know about the topic, they have obviously seen the title. Sorry! I am very bad at starting things. But I really hope this post ends well…. for you!
+So, this one is about Classification. I will try to cover Regression in another post. But why am I starting with metrics right off the bat you ask?</description>
     </item>
     
   </channel>
